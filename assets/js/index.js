@@ -28,17 +28,17 @@ function getUserInfo() {
             }
             // 调用renderAvatar渲染用户头像
             renderAvatar(res.data)
-        }
+        },
         // 无论成功还是失败,最终都会调用complete回调函数
-        // complete: function (res) {
-        //     // 在complete回调函数中,可以使用res.responseJSON拿到服务器响应回来的数据
-        //     if (res.responseJSON.status === 1 && res.responseJSON.message === '身份认证失败!') {
-        //         // 1.强制清空token
-        //         localStorage.removeItem('token')
-        //         // 2.强制跳转到登录页面
-        //         location.href = '../../login.html'
-        //     }
-        // }
+        complete: function (res) {
+            // 在complete回调函数中,可以使用res.responseJSON拿到服务器响应回来的数据
+            if (res.responseJSON.status === 1 && res.responseJSON.message === '身份认证失败!') {
+                // 1.强制清空token
+                localStorage.removeItem('token')
+                // 2.强制跳转到登录页面
+                location.href = '../../login.html'
+            }
+        }
     })
 }
 // 封装渲染用户的头像函数
@@ -51,6 +51,7 @@ function renderAvatar(user) {
     if (user.user_pic !== null) {
         //    3.1 已设置头像用户
         $('.layui-nav-img').attr('src', user.user_pic).show()
+        $('.text-avatar').hide()
     } else {
         // 3.2文字头像
         $('.layui-nav-img').hide()
